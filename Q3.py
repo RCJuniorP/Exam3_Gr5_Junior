@@ -76,32 +76,35 @@ def verifier_signature_valide(message : str, signature : str) -> bool|None:
 # Programme principal
 # ************************** Variables ****************************
 # Entrées : messages (list[str]), signatures (list[str])
-# Intermédiaires : nb_messages (int), nb_signatures (int), message (str), signature (str)
+# Intermédiaires : nb_messages (int), nb_signatures (int), message (str), signature (str), signature_valide (bool)
 # Sorties : messages_valides (list[str]), messages_alteres (list[str]), messages_sans_signature (list[str]), signatures_sans_message (list[str])
 # ***********************************************************************
 # --Début--
 # Essayer d'obtenir les messages et les signatures du dictionnaire messages_gr5.
 # Si il y a une exception KeyError (les messages ou les signatures n'existent pas):
-#   Afficher un message d'erreur puis terminer le programme.
+#   Afficher un message d'erreur, puis terminer le programme.
 # Si les messages ou les signatures ne sont pas des listes:
-#   Afficher un message d'erreur puis terminer le programme.
+#   Afficher un message d'erreur, puis terminer le programme.
 # Pour chaque message:
 #   Si le message n'est pas un string:
-#       Afficher un message d'erreur puis terminer le programme.
+#       Afficher un message d'erreur, puis terminer le programme.
 # Pour chaque signature:
 #   Si la signature n'est pas un string:
-#       Afficher un message d'erreur puis terminer le programme.
+#       Afficher un message d'erreur, puis terminer le programme.
 # Calculer le nombre de messages avec la fonction len.
 # Calculer le nombre de signatures avec la fonction len.
 # Initialiser les variables messages_valides, messages_alteres, messages_sans_signature et signatures_sans_message avec des listes vides.
 # Si le nombre de signatures est supérieur au nombre de messages:
-#   Les signatures sans message sont égales à la section de la liste des signatures qui va du nombre de messages inclusivement à la fin de la liste.
+#   Les signatures sans message sont égales à la section de la liste des signatures qui va du nombre de messages inclusivement jusqu'à la fin de la liste.
 # Pour un index allant de 0 au nombre de message exclusivement:
 #   Trouver le message qui correspond à cet index.
 #   Si l'index est supérieur ou égal au nombre de signatures:
-#       Ajouter le message aux messages sans signature, puis sauter le reste de la boucle.
+#       Ajouter le message aux messages sans signature, puis sauter le reste de cette itération de la boucle.
 #   Trouver la signature qui correspond à l'index.
-#   Si la signature est valide (en utilisant la fonction verifier_signature_valide avec comme arugments le message et la signature):
+#   Vérifier que la signature est valide (en utilisant la fonction verifier_signature_valide avec comme arugments le message et la signature).
+#   Si la validation de la signature a eu une erreur (elle a retourné None):
+#       Afficher un message d'erreur, puis terminer le programme.
+#   Sinon, si la signature est valide:
 #       Ajouter le message au messages valides.
 #   Sinon:
 #       Ajouter le message au messages altérés.
@@ -148,7 +151,11 @@ def main():
             messages_sans_signature.append(message)
             continue
         signature : str = signatures[i]
-        if verifier_signature_valide(message, signature):
+        signature_valide : bool|None = verifier_signature_valide(message, signature)
+        if signature_valide is None:
+            print("Il y a eu une erreur dans la validation des signatures!")
+            return
+        elif signature_valide:
             messages_valides.append(message)
         else:
             messages_alteres.append(message)
