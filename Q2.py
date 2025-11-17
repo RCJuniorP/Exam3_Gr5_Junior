@@ -8,8 +8,8 @@ def afficher_jours_examens(horaire_examen: dict) -> list[str]:
     :param horaire_examen: dictionnaire contenant les dates d'examens
     :return: une liste de jours de la semaine
     """
+    jours = []
     for i in range(len(horaire_examen)):
-        jours = []
         date = datetime.datetime.strptime(horaire_examen[i], "%Y-%m-%d")
         j = date.strftime("%a")
         jours.append(j)
