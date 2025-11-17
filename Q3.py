@@ -76,10 +76,41 @@ def verifier_signature_valide(message : str, signature : str) -> bool|None:
 # Programme principal
 # ************************** Variables ****************************
 # Entrées : messages (list[str]), signatures (list[str])
-# Intermédiaires : message (str), signature (str)
-# Sorties : messages_valides (list[str]), messages_alteres (list[str])
+# Intermédiaires : nb_messages (int), nb_signatures (int), message (str), signature (str)
+# Sorties : messages_valides (list[str]), messages_alteres (list[str]), messages_sans_signature (list[str]), signatures_sans_message (list[str])
 # ***********************************************************************
 # --Début--
+# Essayer d'obtenir les messages et les signatures du dictionnaire messages_gr5.
+# Si il y a une exception KeyError (les messages ou les signatures n'existent pas):
+#   Afficher un message d'erreur puis terminer le programme.
+# Si les messages ou les signatures ne sont pas des listes:
+#   Afficher un message d'erreur puis terminer le programme.
+# Pour chaque message:
+#   Si le message n'est pas un string:
+#       Afficher un message d'erreur puis terminer le programme.
+# Pour chaque signature:
+#   Si la signature n'est pas un string:
+#       Afficher un message d'erreur puis terminer le programme.
+# Calculer le nombre de messages avec la fonction len.
+# Calculer le nombre de signatures avec la fonction len.
+# Initialiser les variables messages_valides, messages_alteres, messages_sans_signature et signatures_sans_message avec des listes vides.
+# Si le nombre de signatures est supérieur au nombre de messages:
+#   Les signatures sans message sont égales à la section de la liste des signatures qui va du nombre de messages inclusivement à la fin de la liste.
+# Pour un index allant de 0 au nombre de message exclusivement:
+#   Trouver le message qui correspond à cet index.
+#   Si l'index est supérieur ou égal au nombre de signatures:
+#       Ajouter le message aux messages sans signature, puis sauter le reste de la boucle.
+#   Trouver la signature qui correspond à l'index.
+#   Si la signature est valide (en utilisant la fonction verifier_signature_valide avec comme arugments le message et la signature):
+#       Ajouter le message au messages valides.
+#   Sinon:
+#       Ajouter le message au messages altérés.
+# ***Répéter ce code pour les 4 variables de sortie (messages_valides, messages_alteres, messages_sans_signature et signatures_sans_message)***
+# Si il y a au moins un message ou signature dans la varible de sortie:
+#   Afficher un séparateur.
+#   Afficher la catégorie qui correspond à la variable de sortie.
+#   Pour chaque message ou signature dans la variable de sorite:
+#       Afficher le message/la signature.
 # --Fin--
 def main():
     try:
@@ -91,6 +122,15 @@ def main():
     if not isinstance(messages, list) or not isinstance(signatures, list):
         print("Les messages et les signatures doivent être des listes!")
         return
+    for message in messages:
+        if not isinstance(message, str):
+            print("Les messages doivent être une liste de string!")
+            return
+    for signature in signatures:
+        if not isinstance(signature, str):
+            print("Les signatures doivent être une liste de string!")
+            return
+
     nb_messages : int = len(messages)
     nb_signatures : int = len(signatures)
 
@@ -101,36 +141,28 @@ def main():
 
     if nb_signatures > nb_messages:
         signatures_sans_message = signatures[nb_messages:]
-        for signature_sans_message in signatures_sans_message:
-            if not isinstance(signature_sans_message, str):
-                print("Les signatures doivent être une liste de string!")
-                return
 
     for i in range(nb_messages):
         message : str = messages[i]
-        if not isinstance(message, str):
-            print("Les messages doivent être une liste de string!")
-            return
         if i >= nb_signatures:
             messages_sans_signature.append(message)
             continue
         signature : str = signatures[i]
-        if not isinstance(signature, str):
-            print("Les signatures doivent être une liste de string!")
-            return
         if verifier_signature_valide(message, signature):
             messages_valides.append(message)
         else:
             messages_alteres.append(message)
 
-
-    print("Messages avec des signatures validées : ")
-    for message in messages_valides:
-        print(message)
-    print("-------------------------------------------")
-    print("Messages altérés, signatures non valides : ")
-    for message in messages_alteres:
-        print(message)
+    if messages_valides:
+        print("-------------------------------------------")
+        print("Messages avec des signatures validées : ")
+        for message in messages_valides:
+            print(message)
+    if messages_alteres:
+        print("-------------------------------------------")
+        print("Messages altérés, signatures non valides : ")
+        for message in messages_alteres:
+            print(message)
     if messages_sans_signature:
         print("-------------------------------------------")
         print("Messages sans signature : ")
@@ -139,7 +171,8 @@ def main():
     if signatures_sans_message:
         print("-------------------------------------------")
         print("Signatures sans message : ")
-        print(", ".join(signatures_sans_message))
+        for signature in signatures_sans_message:
+            print(signature)
 
 if __name__ == "__main__":
     main()
