@@ -11,7 +11,7 @@ def afficher_jours_examens(horaire_examen: dict) -> list[str]:
     jours = []
     for examen in horaire_examen:
         date = datetime.datetime.strptime(horaire_examen[examen], "%d/%m/%Y")
-        j = date.strftime("%a")
+        j = date.strftime("%A") # La documentation python sur strptime() a été utilisée pour corriger ces erreurs.
         jours.append(j)
     return jours
 
