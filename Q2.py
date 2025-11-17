@@ -13,7 +13,7 @@ def afficher_jours_examens(horaire_examen: dict) -> list[str]:
         date = datetime.datetime.strptime(horaire_examen[i], "%Y-%m-%d")
         j = date.strftime("%a")
         jours.append(j)
-        return jours
+    return jours
 
 if __name__ == '__main__':
     horaire_examen = {
