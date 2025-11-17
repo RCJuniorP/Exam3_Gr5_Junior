@@ -6,15 +6,21 @@ messages_gr5 = {
 }
 
 # ***********************************************************************
-# nom_fonction : Fonction qui fait quelque chose...
-#                      deuxième ligne
+# creer_signature : Fonction qui crée la signature d'un message
 # ************************** Variables ****************************
-# Entrées : var1 (type), var2 (type)
-# Intermédiaires : var1 (type)
-# Constanes : const1 (type)
-# Sorties : return_var (type)
+# Entrées : message (str)
+# Intermédiaires : mots (list[str]), mot (str)
+# Sorties : resultat (str)
 # ***********************************************************************
 # --Début--
+# Si le message n'est pas un string:
+#   Retourner None.
+# Initialiser la variable resultat à une liste vide.
+# Trouver les mots dans le message en utilisant la méthode str.split.
+# Pour chaque mot dans la liste de mots:
+#   Si la longeur du mot est supérieure ou égale à 3:
+#       Ajouter au résultat la section du mot qui va du troisième caractère avant la fin inclusivement au dernier caractère exclusivement.
+# Retourner le résultat.
 # --Fin--
 def creer_signature(message : str) -> str|None:
     """
@@ -25,22 +31,29 @@ def creer_signature(message : str) -> str|None:
     if not isinstance(message, str):
         return None
     resultat : str = ""
-    mots : list[str] = message.split()
+    mots : list[str] = message.split() # TODO : Crédit?
     for mot in mots:
         if len(mot) >= 3:
             resultat += mot[-3:-1]
     return resultat
 
 # ***********************************************************************
-# nom_fonction : Fonction qui fait quelque chose...
-#                      deuxième ligne
+# verifier_signature_valide : Fonction qui vérifie si une signature correspond à un message donné.
 # ************************** Variables ****************************
-# Entrées : var1 (type), var2 (type)
-# Intermédiaires : var1 (type)
-# Constanes : const1 (type)
-# Sorties : return_var (type)
+# Entrées : message (str), signature (str)
+# Intermédiaires : signature_correcte (str)
+# Sorties : Le résultat de la fonction (bool ou None)
 # ***********************************************************************
 # --Début--
+# Si le message n'est pas un string ou la signature n'est pas un string:
+#   Retourner None.
+# Calculer la signature correcte du message à l'aide de la fonction creer_signature.
+# Si la signature correcte est None (il y a eu une erreur):
+#   Retourner None.
+# Si la signature du message est égale à la signature correcte:
+#   Retourner Vrai.
+# Sinon:
+#   Retourner False.
 # --Fin--
 def verifier_signature_valide(message : str, signature : str) -> bool|None:
     """
@@ -54,7 +67,10 @@ def verifier_signature_valide(message : str, signature : str) -> bool|None:
     signature_correcte : str = creer_signature(message)
     if signature_correcte is None:
         return None
-    return signature == signature_correcte
+    if signature == signature_correcte:
+        return True
+    else:
+        return False
 
 # ***********************************************************************
 # Programme principal
