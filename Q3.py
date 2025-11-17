@@ -31,7 +31,7 @@ def creer_signature(message : str) -> str|None:
     if not isinstance(message, str):
         return None
     resultat : str = ""
-    mots : list[str] = message.split() # TODO : Crédit?
+    mots : list[str] = message.split() # Doc python
     for mot in mots:
         if len(mot) >= 3:
             resultat += mot[-3:-1]
