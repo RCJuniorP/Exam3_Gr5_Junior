@@ -1,0 +1,70 @@
+Note : Le format du pseudocode est inspiré des excercies.
+
+***********************************************************************
+chiffrement_cle_cryptage : Fonction qui crypte un message à l'aide d'une clé de chiffrement.
+************************** Variables ****************************
+Entrées : message (str), cle (list[list[str]])
+Intermédiaires : index (int), caractere (str)
+Sorties : resultat (str)
+***********************************************************************
+--Début--
+Si le message n'est pas un string:
+    Retourner None.
+Si la cle n'est pas une liste:
+    Retourner None.
+Si la clé n'est pas de longeur 2 (2 listes):
+    Retourner None.
+Si la clé contient un élément qui n'est pas une liste:
+    Retourner None.
+Si les deux listes dans le clé ne sont pas de la même longeur:
+    Retourner None.
+Pour chaque index allant de 0 à la longeur de la liste dans la clé (exclusivement):
+    Si, à cet index, une des deux listes dans la clé contient un élément qui n'est pas un string:
+        Retourner None.
+
+Initialiser la variable resultat à une liste vide (resultat = "").
+Pour chaque caractère dans le message:
+    Essayer d'utiliser la methode list.index pour trouver l'index du caractère dans la première liste. (Documentation Python, https://docs.python.org/3/library/stdtypes.html#list.index)
+    S'il y a une exception ValueError (le caractère n'est pas dans la liste):
+        Ajouter le caractère tel quel au résultat.
+    Sinon:
+        Ajouter au résultat le caractère qui se trouve à cet index dans la deuxième liste (resultat += cle[1][index]).
+Retourner le resultat.
+--Fin--
+
+
+(Note : Cette fonction est fortement inspirée de mon implementation que j'avais faite pendant les excercices sur la cryptographie.
+***********************************************************************
+chiffrement_cesar : Fonction qui crypte un message à l'aide de la méthode César.
+************************** Variables ****************************
+Entrées : message (str), cle (int)
+Intermédiaires : caracteres_remplacement (list[str]), caractere (str), index_lettre (int), index_remplacement (int)
+Sorties : resultat (str)
+***********************************************************************
+--Début--
+Si le message n'est pas un string ou la clé n'est pas un int:
+    Retourner None.
+Initialiser une liste qui contient toutes les lettres de l'alphabet en ordre (caracteres_remplacement).
+Initialiser la variable resultat à une liste vide (resultat = "").
+Pour chaque caractère dans le message:
+    Si le caractère n'est pas dans caracteres_remplacement:
+        Ajouter le caractère au résultat tel quel.
+    Sinon:
+        Trouver l'index du caractère dans caracteres_remplacement avec la méthode list.index.
+        L'index du nouveau caractère équivaut à l'index original du caractère additionné à la clé puis modulo 26 (index_remplacement = (index_lettre + cle) % 26).
+        Ajouter le caractère qui se trouve à l'index du nouveau caractère au résultat.
+Retourner le résultat.
+--Fin--
+
+***********************************************************************
+Programme principal
+************************** Variables ****************************
+Entrées : message (str), cle_gr5 (list[list[str]]), cle_cesar (int)
+Intermédiaires : messsage_chiffre_cle_gr5 (str)
+Sorties : message_chiffre_final (str)
+***********************************************************************
+--Début--
+Calculer le message chiffré avec la cle_gr5 en appelant chiffrement_cle_cryptage avec comme arguments le message original et la cle_gr5.
+Calculer le message chifrré final en appelant chiffrement_cesar avec comme arguments le message chiffré à l'étape précédente et la cle_cesar.
+Afficher le message chiffré final.
+--Fin--
